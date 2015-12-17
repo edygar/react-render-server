@@ -1,0 +1,32 @@
+{
+  "presets": ["react", "es2015", "stage-0"],
+  "plugins": [ "typecheck"],
+  "env": {
+    "development/client": {
+      "plugins": [
+        [ "transform-runtime" ],
+        ["react-transform", {
+          "transforms": [{
+            "transform": "react-transform-hmr",
+            "imports": ["react"],
+            "locals": ["module"]
+          }, {
+            "transform": "react-transform-catch-errors",
+            "imports": ["react", "redbox-react"]
+          }]
+        }]
+      ]
+    },
+    "development": {
+      "plugins": [
+        [ "transform-runtime" ],
+        ["react-transform", {
+          "transforms": [{
+            "transform": "react-transform-catch-errors",
+            "imports": ["react", "redbox-react"]
+          }]
+        }]
+      ]
+    }
+  }
+}

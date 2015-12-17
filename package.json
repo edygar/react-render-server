@@ -1,0 +1,117 @@
+{
+  "name": "react-render-server",
+  "version": "0.0.0",
+  "description": "Render server",
+  "scripts": {
+    "start": "concurrent --kill-others \"npm run start-prod\"",
+    "start-prod": "better-npm-run start-prod",
+    "build": "webpack --verbose --colors --display-error-details --config config/webpack.config.prod.js",
+    "postinstall": "webpack --display-error-details --config config/webpack.config.prod.js",
+    "lint": "eslint -c .eslintrc src",
+    "start-dev": "better-npm-run start-dev",
+    "watch-client": "better-npm-run watch-client",
+    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
+    "test": "karma start",
+    "test-node": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register",
+    "test-node-watch": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register --watch"
+  },
+  "betterScripts": {
+    "start-prod": {
+      "command": "node .index.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production",
+        "PORT": 8080,
+        "APIPORT": 3030
+      }
+    },
+    "start-dev": {
+      "command": "node ./index.js",
+      "env": {
+        "DEBUG": "server",
+        "NODE_PATH": "./src",
+        "NODE_ENV": "development",
+        "PORT": 3000,
+        "APIPORT": 3030
+      }
+    },
+    "watch-client": {
+      "command": "node config/webpack.server.dev.js",
+      "env": {
+        "BABEL_ENV": "development/client",
+        "UV_THREADPOOL_SIZE": 100,
+        "NODE_PATH": "./src"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaearon/react-transform-boilerplate.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "boilerplate",
+    "hot",
+    "reload",
+    "hmr",
+    "live",
+    "edit",
+    "webpack",
+    "babel",
+    "react-transform"
+  ],
+  "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/gaearon/react-transform-boilerplate/issues"
+  },
+  "homepage": "https://github.com/gaearon/react-transform-boilerplate",
+  "devDependencies": {
+    "autoprefixer": "^6.1.2",
+    "babel-core": "^6.3.15",
+    "babel-eslint": "^5.0.0-beta4",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-react-transform": "^2.0.0-beta1",
+    "babel-plugin-typecheck": "^3.5.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "better-npm-run": "^0.0.4",
+    "concurrently": "^0.1.1",
+    "cssnano": "^3.4.0",
+    "cssnext": "^1.8.4",
+    "eslint": "^1.10.3",
+    "eslint-loader": "^1.1.1",
+    "eslint-plugin-babel": "^3.0.0",
+    "eslint-plugin-react": "^3.11.3",
+    "express": "^4.13.3",
+    "piping": "^0.3.0",
+    "postcss-loader": "^0.8.0",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.0",
+    "rimraf": "^2.4.3",
+    "webpack": "^1.12.9",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
+  },
+  "dependencies": {
+    "babel-plugin-transform-runtime": "^6.3.13",
+    "body-parser": "^1.14.2",
+    "compression": "^1.6.0",
+    "cookie-parser": "^1.4.0",
+    "css-loader": "^0.23.0",
+    "express": "^4.13.3",
+    "file-loader": "^0.8.5",
+    "morgan": "^1.6.1",
+    "postcss-loader": "^0.8.0",
+    "react": "^0.14.3",
+    "react-document-meta": "^2.0.0",
+    "react-dom": "^0.14.3",
+    "serialize-javascript": "^1.1.2",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack-isomorphic-tools": "^2.2.22"
+  }
+}
