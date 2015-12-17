@@ -20,8 +20,8 @@ var serverOptions = {
 };
 
 var app = new Express();
-
 var compiler = webpack(webpackConfig);
+
 app.use(require('webpack-dev-middleware')(compiler, serverOptions));
 app.use(require('webpack-hot-middleware')(compiler));
 

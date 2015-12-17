@@ -89,6 +89,7 @@
     "piping": "^0.3.0",
     "postcss-loader": "^0.8.0",
     "react-transform-catch-errors": "^1.0.0",
+    "babel-plugin-transform-runtime": "^6.3.13",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.2.0",
     "rimraf": "^2.4.3",
@@ -97,21 +98,20 @@
     "webpack-hot-middleware": "^2.6.0"
   },
   "dependencies": {
-    "babel-plugin-transform-runtime": "^6.3.13",
+    "morgan": "^1.6.1",
+    "express": "^4.13.3",
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
-    "css-loader": "^0.23.0",
-    "express": "^4.13.3",
-    "file-loader": "^0.8.5",
-    "morgan": "^1.6.1",
-    "postcss-loader": "^0.8.0",
-    "react": "^0.14.3",
-    "react-document-meta": "^2.0.0",
-    "react-dom": "^0.14.3",
     "serialize-javascript": "^1.1.2",
-    "style-loader": "^0.13.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-document-meta": "^2.0.0",
+    "css-loader": "^0.23.0",
     "url-loader": "^0.5.7",
+    "file-loader": "^0.8.5",
+    "style-loader": "^0.13.0",
+    "postcss-loader": "^0.8.0",
     "webpack-isomorphic-tools": "^2.2.22"
   }
 }

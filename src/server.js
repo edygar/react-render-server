@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import AppWrapper from  './components/AppWrapper';
+import Html from  './components/Html';
 import App from  './containers/App';
 
 import path from 'path';
@@ -42,7 +42,7 @@ server.get('*', (req, res) => {
   res.send(
    '<!doctype html>\n' +
    ReactDOM.renderToStaticMarkup(
-     <AppWrapper
+     <Html
        assets={webpackIsomorphicTools.assets()}
        store={{}}
        component={<App/>}
