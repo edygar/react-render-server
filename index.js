@@ -1,7 +1,7 @@
 const debug = require('debug')('server:bootstrap');
 
 debug('Enabling ES6 runtime transpiler');
-require('babel-core/register')({});
+require('babel-core/register');
 
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 const isomorphicConfig = require('./config/isomorphic.config');

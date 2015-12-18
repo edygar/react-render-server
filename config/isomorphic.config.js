@@ -32,7 +32,7 @@ module.exports = {
           //
           // Therefore using a non-default `filter` function here.
           //
-          return webpack_isomorphic_tools_plugin.style_loader_filter(module, regex, options, log)
+          return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log)
         }
 
         // In production mode there's no Webpack "style-loader",

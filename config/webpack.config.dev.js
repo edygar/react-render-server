@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 
 const config = require('../src/config');
@@ -6,7 +5,7 @@ const isomorphicConfig = require('./isomorphic.config');
 
 const webpack = require('webpack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-const universalPlugin = new WebpackIsomorphicToolsPlugin(isomorphicConfig);
+const universalizationPlugin = new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 
 const host = config.host || 'localhost';
 const port = (config.port + 1) || 3001;
@@ -14,6 +13,7 @@ const port = (config.port + 1) || 3001;
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   context: path.resolve(__dirname, '..'),
+  progress: true,
 
   entry: {
     main: [
@@ -52,7 +52,7 @@ module.exports = {
         ]
       },
       {
-        test: universalPlugin.regular_expression('images'),
+        test: universalizationPlugin.regular_expression('images'),
         loader: 'url-loader?limit=10240', // any image below or equal to 10K will be converted to inline base64 instead
       }
     ]
@@ -60,19 +60,15 @@ module.exports = {
 
   'postcss': [
     require('autoprefixer'),
-    require('cssnext')
+    require('postcss-cssnext')
   ],
 
   rejolve: {
-    modulesDirectories: [
-      'src',
-      'node_modules'
-    ],
-    extensions: ['', '.json', '.js', '.jsx', '.css']
+    modulesDirectories: [ 'src', 'node_modules' ],
+    extensions: ['', '.json', '.js', '.jsx']
   },
 
   plugins: [
-    universalPlugin,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
     new webpack.NoErrorsPlugin(),
@@ -80,6 +76,7 @@ module.exports = {
       'process.env': {
         'NODE_ENV': '"development"'
       }
-    })
+    }),
+    universalizationPlugin.development()
   ]
 };
