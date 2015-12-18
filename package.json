@@ -1,6 +1,6 @@
 {
   "name": "react-render-server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Render server",
   "scripts": {
     "lint": "eslint -c .eslintrc src",
