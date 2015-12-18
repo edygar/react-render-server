@@ -1,4 +1,4 @@
-const debug = require('debug')('server:bootstrap');
+const debug = require('debug')('bootstrap');
 
 debug('Enabling ES6 runtime transpiler');
 require('babel-core/register');

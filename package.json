@@ -10,14 +10,11 @@
     "lint": "eslint -c .eslintrc src",
     "start-dev": "better-npm-run start-dev",
     "watch-client": "better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
-    "test": "karma start",
-    "test-node": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register",
-    "test-node-watch": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register --watch"
+    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\""
   },
   "betterScripts": {
     "start-prod": {
-      "command": "node .index.js",
+      "command": "node index.js",
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",

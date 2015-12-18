@@ -31,7 +31,7 @@ debug('Setting up static assets on /public')
 server.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 debug('Setting up GET renderer');
-server.get('*', (req, res) => {
+server.use((req, res) => {
   if (isDevelopment) {
     debug('Refreshing assets');
     // Do not cache webpack stats: the script file would change since
@@ -51,6 +51,6 @@ server.get('*', (req, res) => {
 });
 
 server.listen(config.port, config.host,  function() {
-  debug('==> 💻  Open http://%s:%s in a browser to view the app.', config.host, config.port);
+  console.log('Serving on http://%s:%s', config.host, config.port);
 });
 
