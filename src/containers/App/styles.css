@@ -1,12 +1,13 @@
 .helloMessage {
   flex: 1;
-  color: #333333;
-  font-size: 3.5rem;
-  background: #f5f5f5;
+  color: rgb(0, 216, 255);
+  font: bold 3.5rem/1.6 arial;
   text-align: center;
   font-weight: 300;
-  padding: 3.5rem 0;
-  letter-spacing: 1.5rem;
+  background: color(#f5f5f5 a(90%));
+}
+.helloMessage > img {
+  vertical-align: middle;
 }
 
 :global html {
@@ -17,6 +18,7 @@
 :global html,
 :global body,
 :global #app-root {
+  background: url('./react-logo.svg') center;
   margin: 0;
   padding: 0;
   flex: 1;

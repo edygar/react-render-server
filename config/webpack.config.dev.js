@@ -7,6 +7,8 @@ const webpack = require('webpack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const universalizationPlugin = new WebpackIsomorphicToolsPlugin(isomorphicConfig);
 
+const assetsPath = path.resolve(__dirname, '../public/dist/');
+
 const host = config.host || 'localhost';
 const port = (config.port + 1) || 3001;
 
@@ -23,10 +25,10 @@ module.exports = {
   },
 
   output: {
-    path: path.resolve(__dirname, '..', 'public'),
+    path: assetsPath,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
-    publicPath: 'http://' + host + ':' + port + '/public/'
+    publicPath: 'http://' + host + ':' + port + '/public/dist/'
   },
 
   module: {

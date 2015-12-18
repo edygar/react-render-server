@@ -1,3 +1,4 @@
+/* global webpackIsomorphicTools */
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import Html from  './components/Html';
@@ -27,7 +28,7 @@ server.use(bodyParser.urlencoded({ 'extended': true }));
 server.use(cookieParser());
 server.use(compression());
 
-debug('Setting up static assets on /public')
+debug('Setting up static assets on /public');
 server.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 debug('Setting up GET renderer');
@@ -51,6 +52,6 @@ server.use((req, res) => {
 });
 
 server.listen(config.port, config.host,  function() {
-  console.log('Serving on http://%s:%s', config.host, config.port);
+  debug('Serving on http://%s:%s', config.host, config.port);
 });
 

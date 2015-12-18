@@ -3,4 +3,4 @@ webpack-stats.json
 webpack-assets.json
 node_modules
 npm-debug.log
-public
+public/dist/

@@ -3,33 +3,30 @@
   "version": "0.2.0",
   "description": "Render server",
   "scripts": {
-    "start": "concurrent --kill-others \"npm run start-prod\"",
-    "start-prod": "better-npm-run start-prod",
-    "build": "webpack --verbose --colors --display-error-details --config config/webpack.config.prod.js",
-    "postinstall": "webpack --display-error-details --config config/webpack.config.prod.js",
     "lint": "eslint -c .eslintrc src",
-    "start-dev": "better-npm-run start-dev",
-    "watch-client": "better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\""
+    "start": "concurrent --kill-others \"better-npm-run start-prod-server\"",
+    "build": "webpack --verbose --colors --display-error-details --config config/webpack.config.prod.js",
+    "dev": "concurrent --kill-others \"npm run dev-server\" \"npm run dev-client\"",
+    "dev-server": "better-npm-run start-dev-server",
+    "dev-client": "better-npm-run watch-client",
+    "postinstall": "webpack --display-error-details --config config/webpack.config.prod.js"
   },
   "betterScripts": {
-    "start-prod": {
+    "start-prod-server": {
       "command": "node index.js",
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 8080,
-        "APIPORT": 3030
+        "PORT": 3000
       }
     },
-    "start-dev": {
+    "start-dev-server": {
       "command": "node ./index.js",
       "env": {
-        "DEBUG": "server",
+        "DEBUG": "server,bootstrap",
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
-        "PORT": 3000,
-        "APIPORT": 3030
+        "PORT": 3000
       }
     },
     "watch-client": {
