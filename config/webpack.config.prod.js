@@ -55,6 +55,8 @@ module.exports = {
 
     // set global vars
     new webpack.DefinePlugin({
+      '__SERVER__': false,
+      '__CLIENT__': true,
       'process.env': {
         // Useful to reduce the size of client-side libraries, e.g. react
         NODE_ENV: JSON.stringify('production')

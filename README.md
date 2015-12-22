@@ -2,7 +2,7 @@
 A least opinionated render-server using React [universally](https://medium.com/@mjackson/universal-javascript-4761051b7ae9).
 
 > This project is heavily based on [@erikras](https://github.com/erikras/react-redux-universal-hot-example)\`s project,
-> but using only few tools and dealing only with the front-end on both server and client.
+> with some personal preferences
 
 ## Styles and Assets Management
 Any asset must be imported directly to the javascript file which is going to need it.

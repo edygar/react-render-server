@@ -1,14 +1,15 @@
 var Express = require('express');
 var webpack = require('webpack');
 
-var config = require('../src/config');
+var servers = require('../src/config/servers');
 var webpackConfig = require('./webpack.config.dev');
 
-var host = config.host || 'localhost';
-var port = (config.port + 1) || 3001;
+var host = servers.self.host || 'localhost';
+var port = (servers.self.port + 1) || 3001;
+var prefix = servers.self.prefix || '';
 
 var serverOptions = {
-  contentBase: 'http://' + host + ':' + port,
+  contentBase: 'http://' + host + ':' + port + prefix,
   quiet: true,
   noInfo: true,
   hot: true,

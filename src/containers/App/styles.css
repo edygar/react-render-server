@@ -1,29 +1,11 @@
-.helloMessage {
-  flex: 1;
-  color: rgb(0, 216, 255);
-  font: bold 3.5rem/1.6 arial;
-  text-align: center;
-  font-weight: 300;
-  background: color(#f5f5f5 a(90%));
-}
-.helloMessage > img {
-  vertical-align: middle;
-}
-
 :global html {
   font-size: 62.5%;
-  min-height: 100%;
+  /* Use system font: https://medium.com/designing-medium/system-shock-6b1dc6d6596f */
+  font-family:
+    -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",
+    "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 }
 
-:global html,
-:global body,
-:global #app-root {
-  background: url('./react-logo.svg') center;
-  margin: 0;
-  padding: 0;
-  flex: 1;
-  display: flex;
-  justify-items: stretch;
-  align-items: center;
-}
+.wrapper {
 
+}

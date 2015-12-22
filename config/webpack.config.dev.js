@@ -1,6 +1,6 @@
 const path = require('path');
 
-const config = require('../src/config');
+const servers = require('../src/config/servers');
 const isomorphicConfig = require('./isomorphic.config');
 
 const webpack = require('webpack');
@@ -9,8 +9,9 @@ const universalizationPlugin = new WebpackIsomorphicToolsPlugin(isomorphicConfig
 
 const assetsPath = path.resolve(__dirname, '../public/dist/');
 
-const host = config.host || 'localhost';
-const port = (config.port + 1) || 3001;
+const host = servers.self.host || 'localhost';
+const port = (servers.self.port + 1) || 3001;
+const prefix = servers.self.prefix || '';
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -19,7 +20,7 @@ module.exports = {
 
   entry: {
     main: [
-      'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
+      'webpack-hot-middleware/client?path=http://' + host + ':' + port + prefix + '/__webpack_hmr',
       './src/client.js'
     ]
   },
@@ -75,6 +76,9 @@ module.exports = {
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
+      '__SERVER__': false,
+      '__CLIENT__': true,
+
       'process.env': {
         'NODE_ENV': '"development"'
       }
