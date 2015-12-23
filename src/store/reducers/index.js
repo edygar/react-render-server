@@ -1,7 +1,7 @@
-import * as ActionTypes from 'actions';
 import paginate from './paginate';
 import { routerStateReducer as router } from 'redux-router';
 import { combineReducers } from 'redux';
+import * as ActionTypes from 'actions/api';
 
 // Updates an entity cache in response to any action with response.entities.
 function entities(state = { users: {}, repos: {} }, action) {

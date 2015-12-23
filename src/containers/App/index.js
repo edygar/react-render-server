@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import Explore from 'components/Explore';
-import { resetErrorMessage } from 'actions';
+import { resetErrorMessage } from 'actions/api';
 
 export class App extends Component {
   static propTypes = {

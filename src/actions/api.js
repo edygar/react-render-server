@@ -1,4 +1,4 @@
-import { CALL_API } from 'store/middleware/api';
+import { CALL_API } from 'store/middlewares/api';
 import Schemas from 'store/schemas';
 
 export const USER_REQUEST = 'USER_REQUEST';
@@ -12,7 +12,7 @@ function fetchUser(login) {
     [CALL_API]: {
       types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
       endpoint: `users/${login}`,
-      schema: Schemas.USER
+      schema: Schemas.User
     }
   };
 }
@@ -41,7 +41,7 @@ function fetchRepo(fullName) {
     [CALL_API]: {
       types: [ REPO_REQUEST, REPO_SUCCESS, REPO_FAILURE ],
       endpoint: `repos/${fullName}`,
-      schema: Schemas.REPO
+      schema: Schemas.Repo
     }
   }
 }
@@ -71,7 +71,7 @@ function fetchStarred(login, nextPageUrl) {
     [CALL_API]: {
       types: [ STARRED_REQUEST, STARRED_SUCCESS, STARRED_FAILURE ],
       endpoint: nextPageUrl,
-      schema: Schemas.REPO_ARRAY
+      schema: Schemas.RepoCollection
     }
   }
 }
@@ -106,7 +106,7 @@ function fetchStargazers(fullName, nextPageUrl) {
     [CALL_API]: {
       types: [ STARGAZERS_REQUEST, STARGAZERS_SUCCESS, STARGAZERS_FAILURE ],
       endpoint: nextPageUrl,
-      schema: Schemas.USER_ARRAY
+      schema: Schemas.UserCollection
     }
   }
 }

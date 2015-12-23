@@ -1,4 +1,4 @@
-import { Schema, arrayOf, normalize } from 'normalizr'
+import { Schema, arrayOf, normalize } from 'normalizr';
 
 export const User = new Schema('users', {
   idAttribute: 'login'
@@ -10,7 +10,7 @@ export const Repo = new Schema('repos', {
   idAttribute: 'fullName'
 });
 
-export const RepoCollection arrayOf(Repo);
+export const RepoCollection = arrayOf(Repo);
 
 Repo.define({
   owner: User
