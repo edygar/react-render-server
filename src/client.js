@@ -3,27 +3,35 @@ import 'babel-polyfill';
 
 import ReactDOM from 'react-dom';
 import React from 'react';
-import configureStore from 'config/store';
-import getRoutes from 'config/routes';
+import createStore from 'store/create';
 import { isDevelopment } from 'config/env';
+import Provider from 'react-redux';
+import ReduxRouter from 'redux-router';
 
+const info = require('debug')('info:client');
 const initialState = global.__INITIAL_STATE__;
-const store = configureStore(initialState);
+const store = createStore();
 const mountNode = document.getElementById('content');
 
+info('First client render starting…');
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={store.history}>
-      { getRoutes(store) }
-    </Router>
-  </Provider>
-, mountNode);
+    <Provider store={store}>
+      <ReduxRouter/>
+    </Provider>
+  </Provider>,
+  mountNode,
+  ()=> info('First client render ended')
+);
 
 
 if (isDevelopment) {
+  info('Mounting DevTools aside…');
+
   const DevTools = require('containers/DevTools');
   const devToolsHost = document.createElement("div");
 
+  devToolsHost.setAttribute('id', 'devToolsRoot');
   document.body.appendChild(devToolsHost);
 
   ReactDOM.render(
@@ -31,4 +39,5 @@ if (isDevelopment) {
       <DevTools />
     </Provider>
   , devToolsHost);
+  info('Just mounted DevTools aside');
 }

@@ -2,16 +2,18 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import {isDevelopment, isClient} from 'config/env';
 import {createBrowserHistory, createMemoryHistory} from 'history';
-import useScroll from 'scroll-behavior/lib/useStandardScroll';
+import useStandardScroll from 'scroll-behavior/lib/useStandardScroll';
+import {reduxReactRouter} from 'redux-router';
 import DevTools from 'containers/DevTools';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-import * as middlewares from './middlewares';
+import fetchData from './middlewares/fetchData';
+import api from './middlewares/api';
 import getRoutes from 'config/routes';
 
 let reduxSettings = [
   // Allows actions transformation into fetch
-  applyMiddleware( thunk, ...middlewares),
+  applyMiddleware( thunk, api, fetchData)
 ];
 
 if (isDevelopment && isClient) {
@@ -35,12 +37,12 @@ const finalCreateStore = compose(...reduxSettings)(createStore);
 export default function configureStore(initialState = {}) {
   let createHistory;
   if (isClient) {
-    history = useStandardScroll(createBrowserHistory)
+    createHistory = useStandardScroll(createBrowserHistory);
   } else {
-    history = createMemoryHistory;
+    createHistory = createMemoryHistory;
   }
 
-  const store = reduxReactRouter({ getroutes, createHistory })(finalCreateStore)(reducers, initialState);
+  const store = reduxReactRouter({ getRoutes, createHistory })(finalCreateStore)(reducers, initialState);
 
 
   if (isDevelopment && module.hot) {

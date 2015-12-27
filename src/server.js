@@ -18,29 +18,31 @@ import ReactDOM from 'react-dom/server';
 import Html from './components/Html';
 import App from './containers/App';
 import createStore from './store/create';
-import { pushPath } from 'redux-simple-router';
-import { match } from 'react-router';
+import { reduxReactRouter, match } from 'redux-router/server';
 import getRoutes from 'config/routes';
+import getStatusFromRoutes from 'utils/getStatusFromRoutes';
 
 const pretty = new PrettyError();
 const app = new Express();
-const debug = require('debug')('server');
-const error = require('debug')('server:error');
 
-debug('Setting up server');
+const debug = require('debug')('debug:server');
+const info = require('debug')('info:server');
+const error = require('debug')('error:server');
+
+info('Setting up server');
 app.set('port', servers.self.port);
 app.use(morgan(isProduction ? 'combined' : 'dev'));
 app.use(compression());
 
-debug('Setting up static assets on /public');
+info('Setting up static assets on /public');
 app.use('/public', Express.static(path.join(__dirname, '..', 'public')));
 
-debug('Setting up proxy to API server');
+info('Setting up proxy to API server');
 const proxy = httpProxy.createProxyServer({
   target: `http://${servers.api.host}:${servers.api.port}`
 });
 
-debug('Exposing API server on /api');
+info('Exposing API server on /api');
 app.use('/api', (req, res) => {
   proxy.web(req, res);
 });
@@ -59,54 +61,58 @@ proxy.on('error', (err, req, res) => {
 });
 
 
-debug('Setting up renderer callback');
+const render = (store, clientOnly = false) =>
+  '<!doctype html>\n' + ReactDOM.renderToString(
+    <Html assets={webpackIsomorphicTools.assets()} store={store}>
+      {clientOnly ||
+        <Provider store={store}>
+          <ReduxRouter/>
+        </Provider>
+      }
+    </Html>
+  );
+
+info('Setting up renderer callback');
 app.use((req, res) => {
   if (isDevelopment) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
+    debug('Refreshing static assets');
     webpackIsomorphicTools.refresh();
   }
 
+  debug('creating store…');
   const store = createStore();
+  debug('Store created');
 
-  store.dispatch(match(req.originalUrl, (err, redirectLocation, routerState) => {
-    if (redirectLocation) {
-      res.redirect(redirectLocation.pathname + redirectLocation.search);
-    } else if (err) {
-      error('ROUTER ERROR:', pretty.render(err));
-      res.status(500);
-    } else if (!routerState) {
-      res.status(500);
-    } else {
-      // Workaround redux-router query string issue:
-      // https://github.com/rackt/redux-router/issues/106
-      if (routerState.location.search && !routerState.location.query) {
-        routerState.location.query = qs.parse(routerState.location.search);
-      }
-
-      store.getState().router.then(() => {
-        const component = (
-          <Provider store={store} key="provider">
-            <ReduxRouter/>
-          </Provider>
-        );
-
+  debug('Dispatching requested route to Store');
+  store.dispatch(match(req.originalUrl, (error, redirectLocation, routerState) => {
+    if (!redirectLocation && !error && routerState) {
+      debug('Match found', routerState);
+      store.getState().router
+      .then(() => {
         const status = getStatusFromRoutes(routerState.routes);
-        if (status) {
-          res.status(status);
-        }
-        res.send('<!doctype html>\n' +
-          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
-      }).catch((err) => {
-        console.error('DATA FETCHING ERROR:', pretty.render(err));
-        res.status(500);
-        hydrateOnClient();
+        if (status) res.status(status);
+
+        res.send(render(store));
+      })
+      .catch((err) => {
+        error('Data fetching error:', pretty.render(err));
+        res.send(render(store, true));
       });
+    } else if (redirectLocation) {
+      debug('Redirection occured');
+      res.redirect(redirectLocation.pathname + redirectLocation.search);
+    } else {
+      if (error) error('Router Error:', pretty.render(error));
+
+      res.status(500);
+      res.send(render(store, true));
     }
   }));
 });
 
 app.listen(servers.self.port, servers.self.host,  function() {
-  debug('Serving on http://%s:%s', servers.self.host, servers.self.port);
+  info('Serving on http://%s:%s', servers.self.host, servers.self.port);
 });
 

@@ -1,17 +1,33 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { loadRepo, loadStargazers } from 'actions';
+import { loadRepo, loadStargazers } from 'actions/api';
 
 import Repo from 'components/Repo';
 import User from 'components/User';
 import List from 'components/List';
 
-  loadData() {
-    const { fullName } = this.props;
-    this.props.loadRepo(fullName, [ 'description' ]);
-    this.props.loadStargazers(fullName);
-  }
+
+function mapStateToProps(state) {
+  const { login, name } = state.router.params;
+  const {
+    pagination: { stargazersByRepo },
+    entities: { users, repos }
+  } = state;
+
+  const fullName = `${login}/${name}`;
+  const stargazersPagination = stargazersByRepo[fullName] || { ids: [] };
+  const stargazers = stargazersPagination.ids.map(id => users[id]);
+
+  return {
+    fullName,
+    name,
+    stargazers,
+    stargazersPagination,
+    repo: repos[fullName],
+    owner: users[login]
+  };
+}
 
 class RepoPage extends Component {
   static propTypes = {
@@ -25,20 +41,27 @@ class RepoPage extends Component {
     loadStargazers: PropTypes.func.isRequired
   };
 
+  static loadDataDeferred(getState, dispatch) {
+    const { fullName } = mapStateToProps(getState());
+
+    dispatch(loadRepo(fullName, [ 'description' ]));
+    dispatch(loadStargazers(fullName));
+  }
+
   constructor(props) {
-    super(props)
-    this.renderUser = this.renderUser.bind(this)
-    this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
+    super(props);
+    this.renderUser = this.renderUser.bind(this);
+    this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
   }
 
 
   componentWillMount() {
-    this.loadData();
+    RepoPage.loadData();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.fullName !== this.props.fullName) {
-      this.loadData();
+      RepoPage.loadData();
     }
   }
 
@@ -75,27 +98,6 @@ class RepoPage extends Component {
       </div>
     );
   }
-}
-
-function mapStateToProps(state) {
-  const { login, name } = state.router.params;
-  const {
-    pagination: { stargazersByRepo },
-    entities: { users, repos }
-  } = state;
-
-  const fullName = `${login}/${name}`;
-  const stargazersPagination = stargazersByRepo[fullName] || { ids: [] };
-  const stargazers = stargazersPagination.ids.map(id => users[id]);
-
-  return {
-    fullName,
-    name,
-    stargazers,
-    stargazersPagination,
-    repo: repos[fullName],
-    owner: users[login]
-  };
 }
 
 export default connect(mapStateToProps, {

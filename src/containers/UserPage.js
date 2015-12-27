@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import zip from 'lodash/array/zip';
 
-import { loadUser, loadStarred } from 'actions';
+import { loadUser, loadStarred } from 'actions/api';
 
 import User from 'components/User';
 import Repo from 'components/Repo';
