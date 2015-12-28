@@ -123,6 +123,7 @@
     "redux-thunk": "^1.0.2",
     "scroll-behavior": "^0.3.0",
     "serialize-javascript": "^1.1.2",
+    "serve-favicon": "^2.3.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack-isomorphic-tools": "^2.2.22"

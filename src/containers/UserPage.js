@@ -9,6 +9,26 @@ import Repo from 'components/Repo';
 import List from 'components/List';
 
 
+function mapStateToProps(state) {
+  const { login } = state.router.params;
+  const {
+    pagination: { starredByUser },
+    entities: { users, repos }
+  } = state;
+
+  const starredPagination = starredByUser[login] || { ids: [] };
+  const starredRepos = starredPagination.ids.map(id => repos[id]);
+  const starredRepoOwners = starredRepos.map(repo => users[repo.owner]);
+
+  return {
+    login,
+    starredRepos,
+    starredRepoOwners,
+    starredPagination,
+    user: users[login]
+  };
+}
+
 export class UserPage extends Component {
   static propTypes = {
     login: PropTypes.string.isRequired,
@@ -26,20 +46,12 @@ export class UserPage extends Component {
     this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
   }
 
-  loadData() {
-    const { login } = this.props;
-    this.props.loadUser(login, [ 'name' ]);
-    this.props.loadStarred(login);
-  }
-
-  componentWillMount() {
-    this.loadData();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.login !== this.props.login) {
-      this.loadData();
-    }
+  static loadData({getState, dispatch}, location, params) {
+    console.log("LOL"); // eslint-disable-line no-console
+    return Promise.all([
+      dispatch(loadUser(params.login)),
+      dispatch(loadStarred(params.login))
+    ]);
   }
 
   handleLoadMoreClick() {
@@ -76,26 +88,6 @@ export class UserPage extends Component {
   }
 }
 
-
-function mapStateToProps(state) {
-  const { login } = state.router.params;
-  const {
-    pagination: { starredByUser },
-    entities: { users, repos }
-  } = state;
-
-  const starredPagination = starredByUser[login] || { ids: [] };
-  const starredRepos = starredPagination.ids.map(id => repos[id]);
-  const starredRepoOwners = starredRepos.map(repo => users[repo.owner]);
-
-  return {
-    login,
-    starredRepos,
-    starredRepoOwners,
-    starredPagination,
-    user: users[login]
-  };
-}
 
 export default connect(mapStateToProps, {
   loadUser,

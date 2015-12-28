@@ -66,9 +66,9 @@ module.exports = {
     require('postcss-cssnext')
   ],
 
-  rejolve: {
+  resolve: {
     modulesDirectories: [ 'src', 'node_modules' ],
-    extensions: ['', '.json', '.js', '.jsx']
+    extensions: ['', '.json', '.js', '.jsx', '.css']
   },
 
   plugins: [

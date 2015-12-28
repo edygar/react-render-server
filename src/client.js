@@ -4,23 +4,31 @@ import 'babel-polyfill';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import createStore from 'store/create';
+import useStandardScroll from 'scroll-behavior/lib/useStandardScroll';
 import { isDevelopment } from 'config/env';
-import Provider from 'react-redux';
-import ReduxRouter from 'redux-router';
+import { Provider } from 'react-redux';
+import { ReduxRouter } from 'redux-router';
+import { reduxReactRouter } from 'redux-router';
+import { createHistory } from 'history';
+import getRoutes from 'config/routes';
 
 const info = require('debug')('info:client');
 const initialState = global.__INITIAL_STATE__;
-const store = createStore();
 const mountNode = document.getElementById('content');
+
+const store = createStore(
+  reduxReactRouter,
+  getRoutes,
+  useStandardScroll(createHistory),
+  global.__INITIAL_STATE__
+);
 
 info('First client render starting…');
 ReactDOM.render(
-  <Provider store={store}>
-    <Provider store={store}>
-      <ReduxRouter/>
-    </Provider>
-  </Provider>,
-  mountNode,
+  <Provider store={store} key="provider">
+    <ReduxRouter/>
+  </Provider>
+  , mountNode,
   ()=> info('First client render ended')
 );
 
@@ -28,7 +36,7 @@ ReactDOM.render(
 if (isDevelopment) {
   info('Mounting DevTools aside…');
 
-  const DevTools = require('containers/DevTools');
+  const DevTools = require('containers/DevTools').default;
   const devToolsHost = document.createElement("div");
 
   devToolsHost.setAttribute('id', 'devToolsRoot');

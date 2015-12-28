@@ -41,28 +41,18 @@ class RepoPage extends Component {
     loadStargazers: PropTypes.func.isRequired
   };
 
-  static loadDataDeferred(getState, dispatch) {
-    const { fullName } = mapStateToProps(getState());
-
-    dispatch(loadRepo(fullName, [ 'description' ]));
-    dispatch(loadStargazers(fullName));
+  static loadData({dispatch}, location, params = {}) {
+    const fullName = `${params.login}/${params.name}`;
+    return Promise.all([
+      dispatch(loadRepo(fullName, [ 'description' ])),
+      dispatch(loadStargazers(fullName))
+    ]);
   }
 
   constructor(props) {
     super(props);
     this.renderUser = this.renderUser.bind(this);
     this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
-  }
-
-
-  componentWillMount() {
-    RepoPage.loadData();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.fullName !== this.props.fullName) {
-      RepoPage.loadData();
-    }
   }
 
   handleLoadMoreClick() {
@@ -88,7 +78,7 @@ class RepoPage extends Component {
     return (
       <div>
         <Repo repo={repo}
-                    owner={owner} />
+              owner={owner} />
         <hr />
         <List renderItem={this.renderUser}
               items={stargazers}

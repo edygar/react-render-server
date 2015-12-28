@@ -1,12 +1,15 @@
 module.exports = {
   self: {
+    protocol: process.env.PROTOCOL || 'http',
     host: process.env.HOST || 'localhost',
     port: process.env.PORT || 3000,
     prefix: process.env.PREFIX || ''
   },
   api: {
-    host: process.env.APIHOST || 'localhost',
-    port: process.env.APIPORT || 8080,
-    prefix: process.env.APIPREFIX || '/api/v1'
+    protocol: process.env.APIPROTOCOL || 'https',
+    host: process.env.APIHOST || 'api.github.com',
+    port: process.env.APIPORT || 443,
+    prefix: process.env.APIPREFIX || '',
+    proxyThrought: process.env.PROXYAPITHROUGHT || false
   }
 };

@@ -1,5 +1,5 @@
 import { CALL_API } from 'store/middlewares/api';
-import Schemas from 'store/schemas';
+import * as Schemas from 'store/schemas';
 
 export const USER_REQUEST = 'USER_REQUEST';
 export const USER_SUCCESS = 'USER_SUCCESS';

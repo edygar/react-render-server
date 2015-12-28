@@ -21,7 +21,9 @@ export default class Html extends Component {
 
   render() {
     const {assets, component, store} = this.props;
-    const content = component ? ReactDOM.renderToString(component) : '';
+    const content = this.props.children ?
+        ReactDOM.renderToString(this.props.children) :
+        '';
 
     return (
       <html lang="en-us">
@@ -43,7 +45,7 @@ export default class Html extends Component {
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
-          <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__=${serialize(store)};`}} charSet="UTF-8"/>
+          <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__=${serialize(store.getState())};`}} charSet="UTF-8"/>
           <script src={assets.javascript.main} charSet="UTF-8"/>
         </body>
       </html>

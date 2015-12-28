@@ -42,7 +42,7 @@ module.exports = {
       'src',
       'node_modules'
     ],
-    extensions: ['', '.json', '.js', '.jsx']
+    extensions: ['', '.json', '.js', '.jsx', '.css']
   },
   plugins: [
     new CleanPlugin([assetsPath]),
