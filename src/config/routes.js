@@ -5,8 +5,9 @@ import App from 'containers/App';
 import UserPage from 'containers/UserPage';
 import RepoPage from 'containers/RepoPage';
 
-export default store =>
+export default store => (
   <Route path="/" component={App}>
     <Route path="/:login" component={UserPage} />
     <Route path="/:login/:name" component={RepoPage} />
   </Route>
+);

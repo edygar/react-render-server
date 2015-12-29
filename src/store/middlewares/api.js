@@ -8,7 +8,7 @@ export const CALL_API = Symbol('Call API');
 export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') {
-    return next(action)
+    return next(action);
   }
 
   let { endpoint } = callAPI;
@@ -51,4 +51,4 @@ export default store => next => action => {
       error: error.message || 'Something bad happened'
     }))
   );
-}
+};

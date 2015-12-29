@@ -21,18 +21,18 @@ function fetchUser(login) {
 // Relies on Redux Thunk middleware.
 export function loadUser(login, requiredFields = []) {
   return (dispatch, getState) => {
-    const user = getState().entities.users[login]
+    const user = getState().entities.users[login];
     if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
-      return null
+      return null;
     }
 
-    return dispatch(fetchUser(login))
-  }
+    return dispatch(fetchUser(login));
+  };
 }
 
-export const REPO_REQUEST = 'REPO_REQUEST'
-export const REPO_SUCCESS = 'REPO_SUCCESS'
-export const REPO_FAILURE = 'REPO_FAILURE'
+export const REPO_REQUEST = 'REPO_REQUEST';
+export const REPO_SUCCESS = 'REPO_SUCCESS';
+export const REPO_FAILURE = 'REPO_FAILURE';
 
 // Fetches a single repository from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
@@ -43,25 +43,25 @@ function fetchRepo(fullName) {
       endpoint: `repos/${fullName}`,
       schema: Schemas.Repo
     }
-  }
+  };
 }
 
 // Fetches a single repository from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
 export function loadRepo(fullName, requiredFields = []) {
   return (dispatch, getState) => {
-    const repo = getState().entities.repos[fullName]
+    const repo = getState().entities.repos[fullName];
     if (repo && requiredFields.every(key => repo.hasOwnProperty(key))) {
-      return null
+      return null;
     }
 
-    return dispatch(fetchRepo(fullName))
-  }
+    return dispatch(fetchRepo(fullName));
+  };
 }
 
-export const STARRED_REQUEST = 'STARRED_REQUEST'
-export const STARRED_SUCCESS = 'STARRED_SUCCESS'
-export const STARRED_FAILURE = 'STARRED_FAILURE'
+export const STARRED_REQUEST = 'STARRED_REQUEST';
+export const STARRED_SUCCESS = 'STARRED_SUCCESS';
+export const STARRED_FAILURE = 'STARRED_FAILURE';
 
 // Fetches a page of starred repos by a particular user.
 // Relies on the custom API middleware defined in ../middleware/api.js.
@@ -73,7 +73,7 @@ function fetchStarred(login, nextPageUrl) {
       endpoint: nextPageUrl,
       schema: Schemas.RepoCollection
     }
-  }
+  };
 }
 
 // Fetches a page of starred repos by a particular user.
@@ -84,19 +84,19 @@ export function loadStarred(login, nextPage) {
     const {
       nextPageUrl = `users/${login}/starred`,
       pageCount = 0
-    } = getState().pagination.starredByUser[login] || {}
+    } = getState().pagination.starredByUser[login] || {};
 
     if (pageCount > 0 && !nextPage) {
-      return null
+      return null;
     }
 
-    return dispatch(fetchStarred(login, nextPageUrl))
-  }
+    return dispatch(fetchStarred(login, nextPageUrl));
+  };
 }
 
-export const STARGAZERS_REQUEST = 'STARGAZERS_REQUEST'
-export const STARGAZERS_SUCCESS = 'STARGAZERS_SUCCESS'
-export const STARGAZERS_FAILURE = 'STARGAZERS_FAILURE'
+export const STARGAZERS_REQUEST = 'STARGAZERS_REQUEST';
+export const STARGAZERS_SUCCESS = 'STARGAZERS_SUCCESS';
+export const STARGAZERS_FAILURE = 'STARGAZERS_FAILURE';
 
 // Fetches a page of stargazers for a particular repo.
 // Relies on the custom API middleware defined in ../middleware/api.js.
@@ -108,7 +108,7 @@ function fetchStargazers(fullName, nextPageUrl) {
       endpoint: nextPageUrl,
       schema: Schemas.UserCollection
     }
-  }
+  };
 }
 
 // Fetches a page of stargazers for a particular repo.
@@ -119,21 +119,21 @@ export function loadStargazers(fullName, nextPage) {
     const {
       nextPageUrl = `repos/${fullName}/stargazers`,
       pageCount = 0
-    } = getState().pagination.stargazersByRepo[fullName] || {}
+    } = getState().pagination.stargazersByRepo[fullName] || {};
 
     if (pageCount > 0 && !nextPage) {
-      return null
+      return null;
     }
 
-    return dispatch(fetchStargazers(fullName, nextPageUrl))
-  }
+    return dispatch(fetchStargazers(fullName, nextPageUrl));
+  };
 }
 
-export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
+export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
 // Resets the currently visible error message.
 export function resetErrorMessage() {
   return {
     type: RESET_ERROR_MESSAGE
-  }
+  };
 }

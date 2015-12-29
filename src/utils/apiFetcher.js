@@ -4,7 +4,6 @@ import servers from 'config/servers';
 import 'isomorphic-fetch';
 import { normalize } from 'normalizr';
 
-const debug = require('debug')('debug:request');
 const API_ROOT =
   servers.api.proxyThrought?
   `${servers.self.protocol}://${servers.self.host}:${servers.self.port}${servers.self.prefix}${servers.api.proxyThrought}/`:
@@ -15,7 +14,6 @@ const API_ROOT =
 export default function apiFetcher(endpoint, schema) {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
-  debug(fullUrl);
   return fetch(fullUrl)
   .then(response =>
     response.json().then(json => ({ json, response }))
@@ -36,15 +34,15 @@ export default function apiFetcher(endpoint, schema) {
 
 
 function getNextPageUrl(response) {
-  const link = response.headers.get('link')
+  const link = response.headers.get('link');
   if (!link) {
-    return null
+    return null;
   }
 
-  const nextLink = link.split(',').find(s => s.indexOf('rel="next"') > -1)
+  const nextLink = link.split(',').find(s => s.indexOf('rel="next"') > -1);
   if (!nextLink) {
-    return null
+    return null;
   }
 
-  return nextLink.split(';')[0].slice(1, -1)
+  return nextLink.split(';')[0].slice(1, -1);
 }

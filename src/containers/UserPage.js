@@ -41,13 +41,12 @@ export class UserPage extends Component {
   };
 
   constructor(props) {
-    super(props)
-    this.renderRepo = this.renderRepo.bind(this)
-    this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this)
+    super(props);
+    this.renderRepo = this.renderRepo.bind(this);
+    this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
   }
 
-  static loadData({getState, dispatch}, location, params) {
-    console.log("LOL"); // eslint-disable-line no-console
+  static loadDataDeferred({getState, dispatch}, location, params) {
     return Promise.all([
       dispatch(loadUser(params.login)),
       dispatch(loadStarred(params.login))

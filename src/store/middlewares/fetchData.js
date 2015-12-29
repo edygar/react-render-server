@@ -44,5 +44,6 @@ export default store => next => action => {
 
     return promise;
   }
+
   return next(action);
 };

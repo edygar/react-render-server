@@ -16,10 +16,11 @@ function entities(state = { users: {}, repos: {} }, action) {
 function errorMessage(state = null, action) {
   const { type, error } = action;
 
+
   if (type === ActionTypes.RESET_ERROR_MESSAGE) {
-    return null
+    return null;
   } else if (error) {
-    return action.error
+    return action.error;
   }
 
   return state;
@@ -43,7 +44,7 @@ const pagination = combineReducers({
       ActionTypes.STARGAZERS_FAILURE
     ]
   })
-})
+});
 
 const rootReducer = combineReducers({
   entities,
